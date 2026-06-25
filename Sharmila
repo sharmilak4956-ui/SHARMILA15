@@ -1,0 +1,30 @@
+import cv2
+from deepface import DeepFace
+
+# Path to the image you want to test
+image_path = "person.jpg"
+
+try:
+    # Analyze the image for age and gender
+    # DeepFace automatically detects faces and runs predictions
+    predictions = DeepFace.analyze(
+        img_path=image_path, 
+        actions=['age', 'gender'],
+        enforce_detection=True
+    )
+    
+    # Process results (DeepFace returns a list if multiple faces are found)
+    for i, face in enumerate(predictions):
+        print(f"--- Face {i+1} ---")
+        
+        # Get age estimation
+        estimated_age = face['age']
+        
+        # Get dominant gender prediction
+        predicted_gender = face['dominant_gender']
+        
+        print(f"Estimated Age: {estimated_age} years old")
+        print(f"Predicted Gender: {predicted_gender}")
+
+except Exception as e:
+    print(f"An error occurred: {e}. Ensure a face is visible in the image.")
